@@ -1,0 +1,10 @@
+.vscode/
+.idea/
+_/
+node_modules/
+uploads/*
+!uploads/.gitkeep
+npm-debug.log
+tsconfig.tsbuildinfo
+.env
+/deploy/helm-output/

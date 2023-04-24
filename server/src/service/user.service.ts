@@ -25,7 +25,10 @@ export class UserService {
       activationLink,
     });
 
-    await mailService.sendActivationMail(email, activationLink);
+    await mailService.sendActivationMail(
+      email,
+      `${process.env.API_URL}/api/activate/${activationLink}`
+    );
     const userDto = new UserDTO(user); // id, email, isActivated
     const tokens = await tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
@@ -34,5 +37,14 @@ export class UserService {
       ...tokens,
       user: userDto,
     };
+  }
+
+  async activate(activationLink: string) {
+    const user = await UserRepository.findOneBy({ activationLink });
+    if (!user) {
+      throw new Error("Invalid link for activation");
+    }
+    user.isActivated = true;
+    await UserRepository.save(user);
   }
 }

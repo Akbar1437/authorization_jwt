@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken";
 import * as uuid from "uuid";
 import { TokenRepository } from "../repository";
 
-export class TokenService {
+class TokenService {
   async generateTokens(payload: {
     id: string;
     isActivated: boolean;
@@ -38,4 +38,14 @@ export class TokenService {
     });
     return token;
   }
+
+  async removeToken(refreshToken: string) {
+    const token = await TokenRepository.findOneBy({ refreshToken });
+    if (!token) {
+      throw Error("Token is not defined");
+    }
+    await TokenRepository.delete(token.id);
+    return true;
+  }
 }
+export const tokenService = new TokenService();

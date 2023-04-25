@@ -1,4 +1,5 @@
 import * as express from "express";
+import { body } from "express-validator";
 import {
   activationLinkResolver,
   loginResolver,
@@ -10,7 +11,12 @@ import {
 
 export const router = express.Router();
 
-router.post("/registration", registrationResolver);
+router.post(
+  "/registration",
+  body("email").isEmail(),
+  body("password").isLength({ min: 3, max: 32 }),
+  registrationResolver
+);
 router.post("/login", loginResolver);
 router.post("/logout", logoutResolver);
 router.get("/activate/:link", activationLinkResolver);

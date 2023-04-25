@@ -1,14 +1,13 @@
 import { UserDTO } from "../dtos/user.dto";
 import { UserRepository } from "../repository/user.repository";
 import { MailService } from "./mail.service";
-import { TokenService } from "./token.service";
+import { tokenService } from "./token.service";
 import * as bcrypt from "bcrypt";
 import * as uuid from "uuid";
 
-export class UserService {
+class UserService {
   async registration(email: string, password: string) {
     const mailService = new MailService();
-    const tokenService = new TokenService();
     // checking we not have any user with similar email
     const candidate = await UserRepository.findOneBy({
       email,
@@ -47,4 +46,31 @@ export class UserService {
     user.isActivated = true;
     await UserRepository.save(user);
   }
+
+  async login(email: string, password: string) {
+    const user = await UserRepository.findOneBy({ email });
+    if (!user) {
+      throw new Error(`User with ${email} email not found`);
+    }
+    const isPassEquals = await bcrypt.compare(password, user.password);
+    if (!isPassEquals) {
+      throw new Error("Incorrect password");
+    }
+
+    const userDto = new UserDTO(user);
+    const tokens = await tokenService.generateTokens({ ...userDto });
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+    return {
+      ...tokens,
+      user: userDto,
+    };
+  }
+
+  async logout(refreshToken: string) {
+    const token = await tokenService.removeToken(refreshToken);
+    return token;
+  }
 }
+
+export const userService = new UserService();

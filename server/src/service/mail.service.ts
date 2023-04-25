@@ -1,5 +1,6 @@
 import * as nodemailer from "nodemailer";
 import SMTPTransport = require("nodemailer/lib/smtp-transport");
+
 export class MailService {
   transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
   constructor() {

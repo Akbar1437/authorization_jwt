@@ -71,6 +71,27 @@ class UserService {
     const token = await tokenService.removeToken(refreshToken);
     return token;
   }
+
+  async refresh(refreshToken: string) {
+    if (!refreshToken) {
+      throw Error("User not authorized");
+    }
+    const userPayload = tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDb = await tokenService.findToken(refreshToken);
+    if (!userPayload || !tokenFromDb) {
+      throw Error("User is not authorized");
+    }
+
+    const user = await UserRepository.findOneByOrFail({ id: userPayload.id });
+    const userDto = new UserDTO(user);
+    const tokens = await tokenService.generateTokens({ ...userDto });
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+    return {
+      ...tokens,
+      user: userDto,
+    };
+  }
 }
 
 export const userService = new UserService();

@@ -2,12 +2,14 @@ import * as jwt from "jsonwebtoken";
 import * as uuid from "uuid";
 import { TokenRepository } from "../repository";
 
+type PayloadType = {
+  id: string;
+  isActivated: boolean;
+  email: string;
+};
+
 class TokenService {
-  async generateTokens(payload: {
-    id: string;
-    isActivated: boolean;
-    email: string;
-  }) {
+  async generateTokens(payload: PayloadType) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, {
       expiresIn: "30m",
     });
@@ -19,6 +21,25 @@ class TokenService {
       accessToken,
       refreshToken,
     };
+  }
+
+  validateAccessToken(token: string) {
+    try {
+      const user = jwt.verify(
+        token,
+        process.env.JWT_ACCESS_SECRET!
+      ) as PayloadType;
+      return user;
+    } catch (error) {
+      return null;
+    }
+  }
+  validateRefreshToken(token: string) {
+    try {
+      return jwt.verify(token, process.env.JWT_REFRESH_SECRET!) as PayloadType;
+    } catch (error) {
+      return null;
+    }
   }
 
   async saveToken(userId: string, refreshToken: string) {
@@ -46,6 +67,10 @@ class TokenService {
     }
     await TokenRepository.delete(token.id);
     return true;
+  }
+
+  async findToken(refreshToken: string) {
+    return await TokenRepository.findOneBy({ refreshToken });
   }
 }
 export const tokenService = new TokenService();

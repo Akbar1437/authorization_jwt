@@ -4,9 +4,9 @@ export class MailService {
   transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo>;
   constructor() {
     this.transporter = nodemailer.createTransport({
+      service: "gmail",
       host: process.env.SMTP_HOST!,
-      port: Number(process.env.SMTP_PORT) || 0,
-      secure: false,
+      port: Number(process.env.SMTP_PORT!) || 0,
       auth: {
         user: process.env.SMTP_USER!,
         pass: process.env.SMTP_PASSWORD!,

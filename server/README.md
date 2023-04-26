@@ -1,14 +1,4 @@
-# NewOne
-
-# installation
-
-Before you start you need to clone the itn repository
-
 ## installation
-
-```shell
-git clone https://github.com/Akbar1437/newone.git
-```
 
 Run in the root directory of the cloned repository:
 

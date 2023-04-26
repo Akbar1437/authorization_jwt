@@ -1,5 +1,6 @@
 import * as express from "express";
 import { body } from "express-validator";
+import { authMiddleware } from "../middleware/auth.middleware";
 import {
   activationLinkResolver,
   loginResolver,
@@ -21,4 +22,4 @@ router.post("/login", loginResolver);
 router.post("/logout", logoutResolver);
 router.get("/activate/:link", activationLinkResolver);
 router.get("/refresh", refreshResolver);
-router.get("/users", usersResolver);
+router.get("/users", authMiddleware, usersResolver);

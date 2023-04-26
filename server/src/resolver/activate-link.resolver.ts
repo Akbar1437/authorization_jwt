@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { handler } from "../utils/utils";
 import { userService } from "../service";
 
 export async function activationLinkResolver(

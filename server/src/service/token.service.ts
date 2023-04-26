@@ -29,6 +29,7 @@ class TokenService {
         token,
         process.env.JWT_ACCESS_SECRET!
       ) as PayloadType;
+
       return user;
     } catch (error) {
       return null;

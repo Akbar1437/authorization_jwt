@@ -9,11 +9,11 @@ const App: FC = () => {
   const { store } = useContext(Context);
   const [users, setUsers] = useState<UserType[]>([]);
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      store.checkAuth();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     store.checkAuth();
+  //   }
+  // }, []);
 
   async function getUsers() {
     try {

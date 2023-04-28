@@ -1,4 +1,4 @@
-# JWT Auth FullStack
+# authorization_jwt
 
 ## installation
 

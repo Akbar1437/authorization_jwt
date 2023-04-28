@@ -78,6 +78,9 @@ class UserService {
     }
     const userPayload = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
+    console.log("tokenFromDb", tokenFromDb);
+    console.log("userPayload", userPayload);
+
     if (!userPayload || !tokenFromDb) {
       throw Error("User is not authorized");
     }

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Context } from "../..";
+import { observer } from "mobx-react-lite";
 
-export function LoginComponent() {
+function LoginComponent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { store } = useContext(Context);
   return (
     <div>
       <input
@@ -18,8 +21,12 @@ export function LoginComponent() {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="password"
       />
-      <button>Login</button>
-      <button>Registration</button>
+      <button onClick={() => store.login(email, password)}>Login</button>
+      <button onClick={() => store.registration(email, password)}>
+        Registration
+      </button>
     </div>
   );
 }
+
+export default observer(LoginComponent);

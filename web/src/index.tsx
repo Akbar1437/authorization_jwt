@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Store } from "./store/store";
 
@@ -13,13 +13,8 @@ export const Context = createContext<StoreType>({
   store,
 });
 
-ReactDOM.render(
-  <Context.Provider
-    value={{
-      store,
-    }}
-  >
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <Context.Provider value={{ store }}>
     <App />
-  </Context.Provider>,
-  document.getElementById("root")
+  </Context.Provider>
 );

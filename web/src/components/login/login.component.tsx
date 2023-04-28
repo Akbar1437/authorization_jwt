@@ -8,7 +8,13 @@ const LoginComponent: FC = () => {
   const { store } = useContext(Context);
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <input
         onChange={(e) => setEmail(e.target.value)}
         value={email}

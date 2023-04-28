@@ -13,7 +13,6 @@ export async function registrationResolver(
       throw new Error("Validation error please check your email or password");
     }
     const { email, password } = request.body;
-    console.log("email", email);
 
     const user = await userService.registration(email, password);
     response.cookie("refreshToken", user.refreshToken, {

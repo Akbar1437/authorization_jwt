@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { tokenService } from "../service/token.service";
 import { JwtPayload } from "jsonwebtoken";
 export interface CustomRequest extends Request {
-  userToken: string | JwtPayload;
+  user: string | JwtPayload;
 }
 export function authMiddleware(
   req: Request,
@@ -34,12 +34,12 @@ export function authMiddleware(
       return;
     }
 
-    (req as CustomRequest).userToken = userPayload;
+    (req as CustomRequest).user = userPayload;
 
     next();
   } catch (err) {
     res.status(401);
     res.json({ status: "Invalid token" });
-    return;
+    return next(err);
   }
 }

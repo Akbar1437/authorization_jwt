@@ -9,7 +9,7 @@ type PayloadType = {
 };
 
 class TokenService {
-  async generateTokens(payload: PayloadType) {
+  generateTokens(payload: PayloadType) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, {
       expiresIn: "30m",
     });

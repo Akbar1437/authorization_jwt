@@ -1,25 +1,25 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../..";
+import React, { FC, useContext, useState } from "react";
 import { observer } from "mobx-react-lite";
+import { Context } from "../../index";
 
-function LoginComponent() {
+const LoginComponent: FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { store } = useContext(Context);
+
   return (
     <div>
       <input
-        type="text"
-        value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="email"
-      />
-
-      <input
+        value={email}
         type="text"
-        value={password}
+        placeholder="Email"
+      />
+      <input
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="password"
+        value={password}
+        type="password"
+        placeholder="Password"
       />
       <button onClick={() => store.login(email, password)}>Login</button>
       <button onClick={() => store.registration(email, password)}>
@@ -27,6 +27,6 @@ function LoginComponent() {
       </button>
     </div>
   );
-}
+};
 
 export default observer(LoginComponent);

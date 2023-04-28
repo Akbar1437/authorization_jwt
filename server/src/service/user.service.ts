@@ -74,7 +74,7 @@ class UserService {
 
   async refresh(refreshToken: string) {
     if (!refreshToken) {
-      throw Error("User not authorized");
+      throw Error("Refresh token not found");
     }
     const userPayload = tokenService.validateRefreshToken(refreshToken);
     const tokenFromDb = await tokenService.findToken(refreshToken);
@@ -87,7 +87,7 @@ class UserService {
 
     const user = await UserRepository.findOneByOrFail({ id: userPayload.id });
     const userDto = new UserDTO(user);
-    const tokens = await tokenService.generateTokens({ ...userDto });
+    const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
     return {

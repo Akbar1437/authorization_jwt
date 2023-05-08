@@ -1,5 +1,7 @@
 # authorization_jwt
 
+This is a repository for creating a JWT authentication flow using TypeScript, Express.js and TypeORM.
+
 ## installation
 
 Before you start you need to clone the itn repository and run itn core services on your local machine.

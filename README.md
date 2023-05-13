@@ -4,8 +4,7 @@ This is a repository for creating a JWT authentication flow using TypeScript, Ex
 
 ## installation
 
-Before you start you need to clone the itn repository and run itn core services on your local machine.
-Run in the root directory of the cloned repository:
+Before start you need to clone the repository and run on your local machine.
 
 ```shell
 npm i
